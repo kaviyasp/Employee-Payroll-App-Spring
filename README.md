@@ -165,23 +165,6 @@ src/main/java/com/bridgelabz/employeepayrollapp
 
 ---
 
-## Notes
-
-* Database is required for UC4
-* Hibernate automatically creates tables
-* Ensure MySQL server is running
-
----
-
-## Future Enhancements
-
-* Exception Handling (`@ControllerAdvice`)
-* Input Validation (`@Valid`)
-* Response DTO for structured API responses
-* Logging and Monitoring
-
----
-
 ## Author
 
 * Kaviya S P
