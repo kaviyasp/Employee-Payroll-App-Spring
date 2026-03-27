@@ -2,51 +2,41 @@ package com.bridgelabz.employeepayrollapp.service;
 
 import com.bridgelabz.employeepayrollapp.dto.EmployeeDTO;
 import com.bridgelabz.employeepayrollapp.model.Employee;
+import com.bridgelabz.employeepayrollapp.repository.EmployeeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class EmployeeService {
 
-    private List<Employee> employeeList = new ArrayList<>();
-    private int idCounter = 1;
+    @Autowired
+    private EmployeeRepository repository;
 
-    // GET all
     public List<Employee> getAllEmployees() {
-        return employeeList;
+        return repository.findAll();
     }
 
-    // GET by ID
     public Employee getEmployeeById(int id) {
-        return employeeList.stream()
-                .filter(emp -> emp.getId() == id)
-                .findFirst()
-                .orElse(null);
+        return repository.findById(id).orElse(null);
     }
 
-    // CREATE
     public Employee createEmployee(EmployeeDTO dto) {
-        Employee emp = new Employee(idCounter++, dto.name, dto.salary);
-        employeeList.add(emp);
-        return emp;
+        Employee emp = new Employee(dto.getName(), dto.getSalary());
+        return repository.save(emp);
     }
 
-    // UPDATE
     public Employee updateEmployee(int id, EmployeeDTO dto) {
-        Employee emp = getEmployeeById(id);
+        Employee emp = repository.findById(id).orElse(null);
         if (emp != null) {
-            employeeList.remove(emp);
-            Employee updated = new Employee(id, dto.name, dto.salary);
-            employeeList.add(updated);
-            return updated;
+            emp = new Employee(dto.getName(), dto.getSalary());
+            return repository.save(emp);
         }
         return null;
     }
 
-    // DELETE
     public void deleteEmployee(int id) {
-        employeeList.removeIf(emp -> emp.getId() == id);
+        repository.deleteById(id);
     }
 }
